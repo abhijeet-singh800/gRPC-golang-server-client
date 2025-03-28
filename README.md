@@ -1,1 +1,1 @@
-Check different branches for Diffrent projects 
+Check different branches for different projects 
