@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package grpcPkg;
+
+option go_package = "grpc-test/grpcPkg";
+
+service UserService {
+    rpc GetUser(UserRequest) returns (UserResponse);
+}
+
+message UserRequest{
+    int32 id =1;
+}
+
+message UserResponse{
+    string name =1;
+    int32 age=2;
+}
