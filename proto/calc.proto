@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package calc;
+
+option go_package = "github.com/abhijeet-singh800/grpc-test/grpcPkg/calc";
+
+service CalcService{
+    rpc Add(Two) returns (One);
+    rpc Sub(Two) returns(One);
+    rpc Mul(Two) returns(One);
+    rpc Div(Two) returns(One);
+}
+
+message Two{
+    int32 first=1;
+    int32 sec=2;
+}
+
+message One{
+    int32 num=1;
+}

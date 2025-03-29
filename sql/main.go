@@ -32,7 +32,7 @@ func (usr *User) sanitize() error {
 	return nil
 }
 
-func add(usr *User) (id int64, err error) {
+func Add(usr *User) (id int64, err error) {
 	db, err := sql.Open("sqlite3", "data.db")
 	if err != nil {
 		return 0, err
@@ -58,7 +58,7 @@ func add(usr *User) (id int64, err error) {
 	return id, nil
 }
 
-func delete(id int) error {
+func Delete(id int) error {
 	db, err := sql.Open("sqlite3", "data.db")
 	if err != nil {
 		return err
@@ -78,7 +78,7 @@ func delete(id int) error {
 
 }
 
-func get(id int) (usr *User, err error) {
+func Get(id int) (usr *User, err error) {
 	var usr_id int
 	var name string
 	var emp_id int
@@ -107,7 +107,7 @@ func get(id int) (usr *User, err error) {
 	return &user, nil
 }
 
-func set(usr *User) error {
+func Set(usr *User) error {
 	db, err := sql.Open("sqlite3", "data.db")
 	if err != nil {
 		return err

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package crud;
+
+option go_package = "github.com/abhijeet-singh800/grpc-test/grpcPkg/crud";
+
+service CrudService{
+    rpc GetUser(Id) returns (UserSpec);
+    rpc NewUser(UserSpec) returns (Id);
+    rpc DeleteUser(Id) returns (UserSpec);
+    rpc SetUser(UserSpec) returns (UserSpec);
+}
+
+message UserSpec {
+    int32 id =1;
+    string name=2;
+    int32 emp_id=3;
+    string gender=4;
+    int32 premium=5;
+}
+
+message Id{
+    int32 id=1;
+}
+
