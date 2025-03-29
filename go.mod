@@ -3,6 +3,7 @@ module github.com/abhijeet-singh800/grpc-test
 go 1.23.7
 
 require (
+	github.com/mattn/go-sqlite3 v1.14.24 // indirect
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
