@@ -11,12 +11,22 @@ service CrudService{
     rpc SetUser(UserSpec) returns (UserSpec);
 }
 
+enum Gender {
+    Male = 0;
+    Female = 1;
+}
+
+enum Membership{
+    Free =0;
+    Premium =1;
+}
+
 message UserSpec {
     int32 id =1;
     string name=2;
     int32 emp_id=3;
-    string gender=4;
-    int32 premium=5;
+    Gender gender=4;
+    Membership premium=5;
 }
 
 message Id{

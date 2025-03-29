@@ -54,12 +54,13 @@ func (s *crudServer) GetUser(ctx context.Context, req *crud.Id) (*crud.UserSpec,
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Cant get users form Database Error: %v", err)
 	}
+
 	resp := &crud.UserSpec{
 		Id:      int32(usr.Id),
 		Name:    usr.Name,
 		EmpId:   int32(usr.EmpID),
-		Gender:  usr.Gender,
-		Premium: int32(usr.Premium),
+		Gender:  toGenderEnum(usr.Gender),
+		Premium: toMembershipEnum(usr.Premium),
 	}
 
 	return resp, nil
@@ -74,8 +75,8 @@ func (s *crudServer) DeleteUser(ctx context.Context, req *crud.Id) (*crud.UserSp
 		Id:      int32(usr.Id),
 		Name:    usr.Name,
 		EmpId:   int32(usr.EmpID),
-		Gender:  usr.Gender,
-		Premium: int32(usr.Premium),
+		Gender:  toGenderEnum(usr.Gender),
+		Premium: toMembershipEnum(usr.Premium),
 	}
 
 	err = sql.Delete(int(req.Id))
@@ -91,7 +92,7 @@ func (s *crudServer) NewUser(ctx context.Context, req *crud.UserSpec) (*crud.Id,
 		Id:      int(req.Id),
 		Name:    req.Name,
 		EmpID:   int(req.EmpId),
-		Gender:  req.Gender,
+		Gender:  toGender(req.Gender),
 		Premium: int(req.Premium),
 	}
 	id, err := sql.Add(usr)
@@ -109,7 +110,7 @@ func (s *crudServer) SetUser(ctx context.Context, req *crud.UserSpec) (*crud.Use
 		Id:      int(req.Id),
 		Name:    req.Name,
 		EmpID:   int(req.EmpId),
-		Gender:  req.Gender,
+		Gender:  toGender(req.Gender),
 		Premium: int(req.Premium),
 	}
 
@@ -126,8 +127,8 @@ func (s *crudServer) SetUser(ctx context.Context, req *crud.UserSpec) (*crud.Use
 		Id:      int32(updated_usr.Id),
 		Name:    updated_usr.Name,
 		EmpId:   int32(updated_usr.EmpID),
-		Gender:  updated_usr.Gender,
-		Premium: int32(updated_usr.Premium),
+		Gender:  toGenderEnum(updated_usr.Gender),
+		Premium: toMembershipEnum(updated_usr.Premium),
 	}
 
 	return resp, nil
@@ -149,5 +150,31 @@ func main() {
 	fmt.Printf("Serving to Port :50051")
 	if err := server.Serve(listner); err != nil {
 		log.Fatalf("Cant serve to port 50051 Error: %v", err)
+	}
+}
+
+// Helper Functions
+
+func toGenderEnum(gender string) crud.Gender {
+	if gender == "Male" {
+		return crud.Gender_Male
+	} else {
+		return crud.Gender_Female
+	}
+}
+
+func toGender(enum crud.Gender) string {
+	if enum == crud.Gender_Male {
+		return "Male"
+	} else {
+		return "Female"
+	}
+}
+
+func toMembershipEnum(num int) crud.Membership {
+	if num == 1 {
+		return crud.Membership_Premium
+	} else {
+		return crud.Membership_Free
 	}
 }

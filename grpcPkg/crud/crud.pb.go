@@ -21,13 +21,105 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Gender int32
+
+const (
+	Gender_Male   Gender = 0
+	Gender_Female Gender = 1
+)
+
+// Enum value maps for Gender.
+var (
+	Gender_name = map[int32]string{
+		0: "Male",
+		1: "Female",
+	}
+	Gender_value = map[string]int32{
+		"Male":   0,
+		"Female": 1,
+	}
+)
+
+func (x Gender) Enum() *Gender {
+	p := new(Gender)
+	*p = x
+	return p
+}
+
+func (x Gender) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Gender) Descriptor() protoreflect.EnumDescriptor {
+	return file_crud_proto_enumTypes[0].Descriptor()
+}
+
+func (Gender) Type() protoreflect.EnumType {
+	return &file_crud_proto_enumTypes[0]
+}
+
+func (x Gender) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Gender.Descriptor instead.
+func (Gender) EnumDescriptor() ([]byte, []int) {
+	return file_crud_proto_rawDescGZIP(), []int{0}
+}
+
+type Membership int32
+
+const (
+	Membership_Free    Membership = 0
+	Membership_Premium Membership = 1
+)
+
+// Enum value maps for Membership.
+var (
+	Membership_name = map[int32]string{
+		0: "Free",
+		1: "Premium",
+	}
+	Membership_value = map[string]int32{
+		"Free":    0,
+		"Premium": 1,
+	}
+)
+
+func (x Membership) Enum() *Membership {
+	p := new(Membership)
+	*p = x
+	return p
+}
+
+func (x Membership) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Membership) Descriptor() protoreflect.EnumDescriptor {
+	return file_crud_proto_enumTypes[1].Descriptor()
+}
+
+func (Membership) Type() protoreflect.EnumType {
+	return &file_crud_proto_enumTypes[1]
+}
+
+func (x Membership) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Membership.Descriptor instead.
+func (Membership) EnumDescriptor() ([]byte, []int) {
+	return file_crud_proto_rawDescGZIP(), []int{1}
+}
+
 type UserSpec struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	EmpId         int32                  `protobuf:"varint,3,opt,name=emp_id,json=empId,proto3" json:"emp_id,omitempty"`
-	Gender        string                 `protobuf:"bytes,4,opt,name=gender,proto3" json:"gender,omitempty"`
-	Premium       int32                  `protobuf:"varint,5,opt,name=premium,proto3" json:"premium,omitempty"`
+	Gender        Gender                 `protobuf:"varint,4,opt,name=gender,proto3,enum=crud.Gender" json:"gender,omitempty"`
+	Premium       Membership             `protobuf:"varint,5,opt,name=premium,proto3,enum=crud.Membership" json:"premium,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -83,18 +175,18 @@ func (x *UserSpec) GetEmpId() int32 {
 	return 0
 }
 
-func (x *UserSpec) GetGender() string {
+func (x *UserSpec) GetGender() Gender {
 	if x != nil {
 		return x.Gender
 	}
-	return ""
+	return Gender_Male
 }
 
-func (x *UserSpec) GetPremium() int32 {
+func (x *UserSpec) GetPremium() Membership {
 	if x != nil {
 		return x.Premium
 	}
-	return 0
+	return Membership_Free
 }
 
 type Id struct {
@@ -146,15 +238,23 @@ var File_crud_proto protoreflect.FileDescriptor
 const file_crud_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"crud.proto\x12\x04crud\"w\n" +
+	"crud.proto\x12\x04crud\"\x97\x01\n" +
 	"\bUserSpec\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x15\n" +
-	"\x06emp_id\x18\x03 \x01(\x05R\x05empId\x12\x16\n" +
-	"\x06gender\x18\x04 \x01(\tR\x06gender\x12\x18\n" +
-	"\apremium\x18\x05 \x01(\x05R\apremium\"\x14\n" +
+	"\x06emp_id\x18\x03 \x01(\x05R\x05empId\x12$\n" +
+	"\x06gender\x18\x04 \x01(\x0e2\f.crud.GenderR\x06gender\x12*\n" +
+	"\apremium\x18\x05 \x01(\x0e2\x10.crud.MembershipR\apremium\"\x14\n" +
 	"\x02Id\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id2\xaa\x01\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id*\x1e\n" +
+	"\x06Gender\x12\b\n" +
+	"\x04Male\x10\x00\x12\n" +
+	"\n" +
+	"\x06Female\x10\x01*#\n" +
+	"\n" +
+	"Membership\x12\b\n" +
+	"\x04Free\x10\x00\x12\v\n" +
+	"\aPremium\x10\x012\xaa\x01\n" +
 	"\vCrudService\x12#\n" +
 	"\aGetUser\x12\b.crud.Id\x1a\x0e.crud.UserSpec\x12#\n" +
 	"\aNewUser\x12\x0e.crud.UserSpec\x1a\b.crud.Id\x12&\n" +
@@ -174,25 +274,30 @@ func file_crud_proto_rawDescGZIP() []byte {
 	return file_crud_proto_rawDescData
 }
 
+var file_crud_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_crud_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_crud_proto_goTypes = []any{
-	(*UserSpec)(nil), // 0: crud.UserSpec
-	(*Id)(nil),       // 1: crud.Id
+	(Gender)(0),      // 0: crud.Gender
+	(Membership)(0),  // 1: crud.Membership
+	(*UserSpec)(nil), // 2: crud.UserSpec
+	(*Id)(nil),       // 3: crud.Id
 }
 var file_crud_proto_depIdxs = []int32{
-	1, // 0: crud.CrudService.GetUser:input_type -> crud.Id
-	0, // 1: crud.CrudService.NewUser:input_type -> crud.UserSpec
-	1, // 2: crud.CrudService.DeleteUser:input_type -> crud.Id
-	0, // 3: crud.CrudService.SetUser:input_type -> crud.UserSpec
-	0, // 4: crud.CrudService.GetUser:output_type -> crud.UserSpec
-	1, // 5: crud.CrudService.NewUser:output_type -> crud.Id
-	0, // 6: crud.CrudService.DeleteUser:output_type -> crud.UserSpec
-	0, // 7: crud.CrudService.SetUser:output_type -> crud.UserSpec
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: crud.UserSpec.gender:type_name -> crud.Gender
+	1, // 1: crud.UserSpec.premium:type_name -> crud.Membership
+	3, // 2: crud.CrudService.GetUser:input_type -> crud.Id
+	2, // 3: crud.CrudService.NewUser:input_type -> crud.UserSpec
+	3, // 4: crud.CrudService.DeleteUser:input_type -> crud.Id
+	2, // 5: crud.CrudService.SetUser:input_type -> crud.UserSpec
+	2, // 6: crud.CrudService.GetUser:output_type -> crud.UserSpec
+	3, // 7: crud.CrudService.NewUser:output_type -> crud.Id
+	2, // 8: crud.CrudService.DeleteUser:output_type -> crud.UserSpec
+	2, // 9: crud.CrudService.SetUser:output_type -> crud.UserSpec
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_crud_proto_init() }
@@ -205,13 +310,14 @@ func file_crud_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_crud_proto_rawDesc), len(file_crud_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      2,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_crud_proto_goTypes,
 		DependencyIndexes: file_crud_proto_depIdxs,
+		EnumInfos:         file_crud_proto_enumTypes,
 		MessageInfos:      file_crud_proto_msgTypes,
 	}.Build()
 	File_crud_proto = out.File

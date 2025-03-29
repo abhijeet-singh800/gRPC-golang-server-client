@@ -20,13 +20,7 @@ func (usr *User) sanitize() error {
 	if usr.Name == "" {
 		return err
 	}
-	if !(usr.Gender == "" || usr.Gender == "Male" || usr.Gender == "Female") {
-		return err
-	}
 	if !(usr.EmpID == 999 || (usr.EmpID <= 100 && usr.EmpID%1 == 0 && usr.EmpID != 0)) {
-		return err
-	}
-	if !(usr.Premium == 999 || usr.Premium == 0 || usr.Premium == 1) {
 		return err
 	}
 	return nil
