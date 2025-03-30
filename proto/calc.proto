@@ -9,6 +9,8 @@ service CalcService{
     rpc Sub(Two) returns(One);
     rpc Mul(Two) returns(One);
     rpc Div(Two) returns(One);
+    rpc SumUpTo(NumList) returns (One);
+    rpc CountUpTo(One) returns (NumList);
 }
 
 message Two{
@@ -18,4 +20,8 @@ message Two{
 
 message One{
     int32 num=1;
+}
+
+message NumList{
+    repeated int32 num=1;
 }

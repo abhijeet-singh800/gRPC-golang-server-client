@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CalcService_Add_FullMethodName = "/calc.CalcService/Add"
-	CalcService_Sub_FullMethodName = "/calc.CalcService/Sub"
-	CalcService_Mul_FullMethodName = "/calc.CalcService/Mul"
-	CalcService_Div_FullMethodName = "/calc.CalcService/Div"
+	CalcService_Add_FullMethodName       = "/calc.CalcService/Add"
+	CalcService_Sub_FullMethodName       = "/calc.CalcService/Sub"
+	CalcService_Mul_FullMethodName       = "/calc.CalcService/Mul"
+	CalcService_Div_FullMethodName       = "/calc.CalcService/Div"
+	CalcService_SumUpTo_FullMethodName   = "/calc.CalcService/SumUpTo"
+	CalcService_CountUpTo_FullMethodName = "/calc.CalcService/CountUpTo"
 )
 
 // CalcServiceClient is the client API for CalcService service.
@@ -33,6 +35,8 @@ type CalcServiceClient interface {
 	Sub(ctx context.Context, in *Two, opts ...grpc.CallOption) (*One, error)
 	Mul(ctx context.Context, in *Two, opts ...grpc.CallOption) (*One, error)
 	Div(ctx context.Context, in *Two, opts ...grpc.CallOption) (*One, error)
+	SumUpTo(ctx context.Context, in *NumList, opts ...grpc.CallOption) (*One, error)
+	CountUpTo(ctx context.Context, in *One, opts ...grpc.CallOption) (*NumList, error)
 }
 
 type calcServiceClient struct {
@@ -83,6 +87,26 @@ func (c *calcServiceClient) Div(ctx context.Context, in *Two, opts ...grpc.CallO
 	return out, nil
 }
 
+func (c *calcServiceClient) SumUpTo(ctx context.Context, in *NumList, opts ...grpc.CallOption) (*One, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(One)
+	err := c.cc.Invoke(ctx, CalcService_SumUpTo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *calcServiceClient) CountUpTo(ctx context.Context, in *One, opts ...grpc.CallOption) (*NumList, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(NumList)
+	err := c.cc.Invoke(ctx, CalcService_CountUpTo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CalcServiceServer is the server API for CalcService service.
 // All implementations must embed UnimplementedCalcServiceServer
 // for forward compatibility.
@@ -91,6 +115,8 @@ type CalcServiceServer interface {
 	Sub(context.Context, *Two) (*One, error)
 	Mul(context.Context, *Two) (*One, error)
 	Div(context.Context, *Two) (*One, error)
+	SumUpTo(context.Context, *NumList) (*One, error)
+	CountUpTo(context.Context, *One) (*NumList, error)
 	mustEmbedUnimplementedCalcServiceServer()
 }
 
@@ -112,6 +138,12 @@ func (UnimplementedCalcServiceServer) Mul(context.Context, *Two) (*One, error) {
 }
 func (UnimplementedCalcServiceServer) Div(context.Context, *Two) (*One, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Div not implemented")
+}
+func (UnimplementedCalcServiceServer) SumUpTo(context.Context, *NumList) (*One, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SumUpTo not implemented")
+}
+func (UnimplementedCalcServiceServer) CountUpTo(context.Context, *One) (*NumList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CountUpTo not implemented")
 }
 func (UnimplementedCalcServiceServer) mustEmbedUnimplementedCalcServiceServer() {}
 func (UnimplementedCalcServiceServer) testEmbeddedByValue()                     {}
@@ -206,6 +238,42 @@ func _CalcService_Div_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CalcService_SumUpTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NumList)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CalcServiceServer).SumUpTo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CalcService_SumUpTo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CalcServiceServer).SumUpTo(ctx, req.(*NumList))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CalcService_CountUpTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(One)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CalcServiceServer).CountUpTo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CalcService_CountUpTo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CalcServiceServer).CountUpTo(ctx, req.(*One))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CalcService_ServiceDesc is the grpc.ServiceDesc for CalcService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +296,14 @@ var CalcService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Div",
 			Handler:    _CalcService_Div_Handler,
+		},
+		{
+			MethodName: "SumUpTo",
+			Handler:    _CalcService_SumUpTo_Handler,
+		},
+		{
+			MethodName: "CountUpTo",
+			Handler:    _CalcService_CountUpTo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

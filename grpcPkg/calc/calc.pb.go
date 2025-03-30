@@ -117,6 +117,50 @@ func (x *One) GetNum() int32 {
 	return 0
 }
 
+type NumList struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Num           []int32                `protobuf:"varint,1,rep,packed,name=num,proto3" json:"num,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NumList) Reset() {
+	*x = NumList{}
+	mi := &file_calc_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NumList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NumList) ProtoMessage() {}
+
+func (x *NumList) ProtoReflect() protoreflect.Message {
+	mi := &file_calc_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NumList.ProtoReflect.Descriptor instead.
+func (*NumList) Descriptor() ([]byte, []int) {
+	return file_calc_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *NumList) GetNum() []int32 {
+	if x != nil {
+		return x.Num
+	}
+	return nil
+}
+
 var File_calc_proto protoreflect.FileDescriptor
 
 const file_calc_proto_rawDesc = "" +
@@ -127,12 +171,16 @@ const file_calc_proto_rawDesc = "" +
 	"\x05first\x18\x01 \x01(\x05R\x05first\x12\x10\n" +
 	"\x03sec\x18\x02 \x01(\x05R\x03sec\"\x17\n" +
 	"\x03One\x12\x10\n" +
-	"\x03num\x18\x01 \x01(\x05R\x03num2\x81\x01\n" +
+	"\x03num\x18\x01 \x01(\x05R\x03num\"\x1b\n" +
+	"\aNumList\x12\x10\n" +
+	"\x03num\x18\x01 \x03(\x05R\x03num2\xcd\x01\n" +
 	"\vCalcService\x12\x1b\n" +
 	"\x03Add\x12\t.calc.Two\x1a\t.calc.One\x12\x1b\n" +
 	"\x03Sub\x12\t.calc.Two\x1a\t.calc.One\x12\x1b\n" +
 	"\x03Mul\x12\t.calc.Two\x1a\t.calc.One\x12\x1b\n" +
-	"\x03Div\x12\t.calc.Two\x1a\t.calc.OneB5Z3github.com/abhijeet-singh800/grpc-test/grpcPkg/calcb\x06proto3"
+	"\x03Div\x12\t.calc.Two\x1a\t.calc.One\x12#\n" +
+	"\aSumUpTo\x12\r.calc.NumList\x1a\t.calc.One\x12%\n" +
+	"\tCountUpTo\x12\t.calc.One\x1a\r.calc.NumListB5Z3github.com/abhijeet-singh800/grpc-test/grpcPkg/calcb\x06proto3"
 
 var (
 	file_calc_proto_rawDescOnce sync.Once
@@ -146,22 +194,27 @@ func file_calc_proto_rawDescGZIP() []byte {
 	return file_calc_proto_rawDescData
 }
 
-var file_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_calc_proto_goTypes = []any{
-	(*Two)(nil), // 0: calc.Two
-	(*One)(nil), // 1: calc.One
+	(*Two)(nil),     // 0: calc.Two
+	(*One)(nil),     // 1: calc.One
+	(*NumList)(nil), // 2: calc.NumList
 }
 var file_calc_proto_depIdxs = []int32{
 	0, // 0: calc.CalcService.Add:input_type -> calc.Two
 	0, // 1: calc.CalcService.Sub:input_type -> calc.Two
 	0, // 2: calc.CalcService.Mul:input_type -> calc.Two
 	0, // 3: calc.CalcService.Div:input_type -> calc.Two
-	1, // 4: calc.CalcService.Add:output_type -> calc.One
-	1, // 5: calc.CalcService.Sub:output_type -> calc.One
-	1, // 6: calc.CalcService.Mul:output_type -> calc.One
-	1, // 7: calc.CalcService.Div:output_type -> calc.One
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	2, // 4: calc.CalcService.SumUpTo:input_type -> calc.NumList
+	1, // 5: calc.CalcService.CountUpTo:input_type -> calc.One
+	1, // 6: calc.CalcService.Add:output_type -> calc.One
+	1, // 7: calc.CalcService.Sub:output_type -> calc.One
+	1, // 8: calc.CalcService.Mul:output_type -> calc.One
+	1, // 9: calc.CalcService.Div:output_type -> calc.One
+	1, // 10: calc.CalcService.SumUpTo:output_type -> calc.One
+	2, // 11: calc.CalcService.CountUpTo:output_type -> calc.NumList
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -178,7 +231,7 @@ func file_calc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_calc_proto_rawDesc), len(file_calc_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
