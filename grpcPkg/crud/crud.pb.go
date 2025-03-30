@@ -113,6 +113,42 @@ func (Membership) EnumDescriptor() ([]byte, []int) {
 	return file_crud_proto_rawDescGZIP(), []int{1}
 }
 
+type Nil struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Nil) Reset() {
+	*x = Nil{}
+	mi := &file_crud_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Nil) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Nil) ProtoMessage() {}
+
+func (x *Nil) ProtoReflect() protoreflect.Message {
+	mi := &file_crud_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Nil.ProtoReflect.Descriptor instead.
+func (*Nil) Descriptor() ([]byte, []int) {
+	return file_crud_proto_rawDescGZIP(), []int{0}
+}
+
 type UserSpec struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -126,7 +162,7 @@ type UserSpec struct {
 
 func (x *UserSpec) Reset() {
 	*x = UserSpec{}
-	mi := &file_crud_proto_msgTypes[0]
+	mi := &file_crud_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +174,7 @@ func (x *UserSpec) String() string {
 func (*UserSpec) ProtoMessage() {}
 
 func (x *UserSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[0]
+	mi := &file_crud_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +187,7 @@ func (x *UserSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserSpec.ProtoReflect.Descriptor instead.
 func (*UserSpec) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{0}
+	return file_crud_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *UserSpec) GetId() int32 {
@@ -198,7 +234,7 @@ type Id struct {
 
 func (x *Id) Reset() {
 	*x = Id{}
-	mi := &file_crud_proto_msgTypes[1]
+	mi := &file_crud_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -210,7 +246,7 @@ func (x *Id) String() string {
 func (*Id) ProtoMessage() {}
 
 func (x *Id) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[1]
+	mi := &file_crud_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +259,7 @@ func (x *Id) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Id.ProtoReflect.Descriptor instead.
 func (*Id) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{1}
+	return file_crud_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Id) GetId() int32 {
@@ -238,7 +274,8 @@ var File_crud_proto protoreflect.FileDescriptor
 const file_crud_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"crud.proto\x12\x04crud\"\x97\x01\n" +
+	"crud.proto\x12\x04crud\"\x05\n" +
+	"\x03Nil\"\x97\x01\n" +
 	"\bUserSpec\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x15\n" +
@@ -254,13 +291,14 @@ const file_crud_proto_rawDesc = "" +
 	"\n" +
 	"Membership\x12\b\n" +
 	"\x04Free\x10\x00\x12\v\n" +
-	"\aPremium\x10\x012\xaa\x01\n" +
+	"\aPremium\x10\x012\xd1\x01\n" +
 	"\vCrudService\x12#\n" +
 	"\aGetUser\x12\b.crud.Id\x1a\x0e.crud.UserSpec\x12#\n" +
 	"\aNewUser\x12\x0e.crud.UserSpec\x1a\b.crud.Id\x12&\n" +
 	"\n" +
 	"DeleteUser\x12\b.crud.Id\x1a\x0e.crud.UserSpec\x12)\n" +
-	"\aSetUser\x12\x0e.crud.UserSpec\x1a\x0e.crud.UserSpecB5Z3github.com/abhijeet-singh800/grpc-test/grpcPkg/crudb\x06proto3"
+	"\aSetUser\x12\x0e.crud.UserSpec\x1a\x0e.crud.UserSpec\x12%\n" +
+	"\x06GetAll\x12\t.crud.Nil\x1a\x0e.crud.UserSpec0\x01B5Z3github.com/abhijeet-singh800/grpc-test/grpcPkg/crudb\x06proto3"
 
 var (
 	file_crud_proto_rawDescOnce sync.Once
@@ -275,26 +313,29 @@ func file_crud_proto_rawDescGZIP() []byte {
 }
 
 var file_crud_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_crud_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_crud_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_crud_proto_goTypes = []any{
 	(Gender)(0),      // 0: crud.Gender
 	(Membership)(0),  // 1: crud.Membership
-	(*UserSpec)(nil), // 2: crud.UserSpec
-	(*Id)(nil),       // 3: crud.Id
+	(*Nil)(nil),      // 2: crud.Nil
+	(*UserSpec)(nil), // 3: crud.UserSpec
+	(*Id)(nil),       // 4: crud.Id
 }
 var file_crud_proto_depIdxs = []int32{
 	0, // 0: crud.UserSpec.gender:type_name -> crud.Gender
 	1, // 1: crud.UserSpec.premium:type_name -> crud.Membership
-	3, // 2: crud.CrudService.GetUser:input_type -> crud.Id
-	2, // 3: crud.CrudService.NewUser:input_type -> crud.UserSpec
-	3, // 4: crud.CrudService.DeleteUser:input_type -> crud.Id
-	2, // 5: crud.CrudService.SetUser:input_type -> crud.UserSpec
-	2, // 6: crud.CrudService.GetUser:output_type -> crud.UserSpec
-	3, // 7: crud.CrudService.NewUser:output_type -> crud.Id
-	2, // 8: crud.CrudService.DeleteUser:output_type -> crud.UserSpec
-	2, // 9: crud.CrudService.SetUser:output_type -> crud.UserSpec
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
+	4, // 2: crud.CrudService.GetUser:input_type -> crud.Id
+	3, // 3: crud.CrudService.NewUser:input_type -> crud.UserSpec
+	4, // 4: crud.CrudService.DeleteUser:input_type -> crud.Id
+	3, // 5: crud.CrudService.SetUser:input_type -> crud.UserSpec
+	2, // 6: crud.CrudService.GetAll:input_type -> crud.Nil
+	3, // 7: crud.CrudService.GetUser:output_type -> crud.UserSpec
+	4, // 8: crud.CrudService.NewUser:output_type -> crud.Id
+	3, // 9: crud.CrudService.DeleteUser:output_type -> crud.UserSpec
+	3, // 10: crud.CrudService.SetUser:output_type -> crud.UserSpec
+	3, // 11: crud.CrudService.GetAll:output_type -> crud.UserSpec
+	7, // [7:12] is the sub-list for method output_type
+	2, // [2:7] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -311,7 +352,7 @@ func file_crud_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_crud_proto_rawDesc), len(file_crud_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -23,6 +23,7 @@ const (
 	CrudService_NewUser_FullMethodName    = "/crud.CrudService/NewUser"
 	CrudService_DeleteUser_FullMethodName = "/crud.CrudService/DeleteUser"
 	CrudService_SetUser_FullMethodName    = "/crud.CrudService/SetUser"
+	CrudService_GetAll_FullMethodName     = "/crud.CrudService/GetAll"
 )
 
 // CrudServiceClient is the client API for CrudService service.
@@ -33,6 +34,7 @@ type CrudServiceClient interface {
 	NewUser(ctx context.Context, in *UserSpec, opts ...grpc.CallOption) (*Id, error)
 	DeleteUser(ctx context.Context, in *Id, opts ...grpc.CallOption) (*UserSpec, error)
 	SetUser(ctx context.Context, in *UserSpec, opts ...grpc.CallOption) (*UserSpec, error)
+	GetAll(ctx context.Context, in *Nil, opts ...grpc.CallOption) (grpc.ServerStreamingClient[UserSpec], error)
 }
 
 type crudServiceClient struct {
@@ -83,6 +85,25 @@ func (c *crudServiceClient) SetUser(ctx context.Context, in *UserSpec, opts ...g
 	return out, nil
 }
 
+func (c *crudServiceClient) GetAll(ctx context.Context, in *Nil, opts ...grpc.CallOption) (grpc.ServerStreamingClient[UserSpec], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &CrudService_ServiceDesc.Streams[0], CrudService_GetAll_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Nil, UserSpec]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CrudService_GetAllClient = grpc.ServerStreamingClient[UserSpec]
+
 // CrudServiceServer is the server API for CrudService service.
 // All implementations must embed UnimplementedCrudServiceServer
 // for forward compatibility.
@@ -91,6 +112,7 @@ type CrudServiceServer interface {
 	NewUser(context.Context, *UserSpec) (*Id, error)
 	DeleteUser(context.Context, *Id) (*UserSpec, error)
 	SetUser(context.Context, *UserSpec) (*UserSpec, error)
+	GetAll(*Nil, grpc.ServerStreamingServer[UserSpec]) error
 	mustEmbedUnimplementedCrudServiceServer()
 }
 
@@ -112,6 +134,9 @@ func (UnimplementedCrudServiceServer) DeleteUser(context.Context, *Id) (*UserSpe
 }
 func (UnimplementedCrudServiceServer) SetUser(context.Context, *UserSpec) (*UserSpec, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetUser not implemented")
+}
+func (UnimplementedCrudServiceServer) GetAll(*Nil, grpc.ServerStreamingServer[UserSpec]) error {
+	return status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedCrudServiceServer) mustEmbedUnimplementedCrudServiceServer() {}
 func (UnimplementedCrudServiceServer) testEmbeddedByValue()                     {}
@@ -206,6 +231,17 @@ func _CrudService_SetUser_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CrudService_GetAll_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Nil)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CrudServiceServer).GetAll(m, &grpc.GenericServerStream[Nil, UserSpec]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CrudService_GetAllServer = grpc.ServerStreamingServer[UserSpec]
+
 // CrudService_ServiceDesc is the grpc.ServiceDesc for CrudService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -230,6 +266,12 @@ var CrudService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CrudService_SetUser_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetAll",
+			Handler:       _CrudService_GetAll_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "crud.proto",
 }

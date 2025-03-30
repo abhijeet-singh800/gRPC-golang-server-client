@@ -119,3 +119,41 @@ func Set(usr *User) error {
 	}
 	return nil
 }
+
+func ReadAll() ([]User, error) {
+	data := []User{}
+	db, err := sql.Open("sqlite3", "data.db")
+	if err != nil {
+		return data, err
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM data")
+	if err != nil {
+		return data, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id int
+		var name string
+		var emp_id int
+		var gender string
+		var premium int
+
+		err = rows.Scan(&id, &name, &emp_id, &gender, &premium)
+		if err != nil {
+			return data, err
+		}
+		user := User{
+			Id:      id,
+			Name:    name,
+			EmpID:   emp_id,
+			Gender:  gender,
+			Premium: premium,
+		}
+		data = append(data, user)
+	}
+	return data, nil
+
+}

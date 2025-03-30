@@ -9,7 +9,10 @@ service CrudService{
     rpc NewUser(UserSpec) returns (Id);
     rpc DeleteUser(Id) returns (UserSpec);
     rpc SetUser(UserSpec) returns (UserSpec);
+    rpc GetAll(Nil) returns (stream UserSpec);
 }
+
+message Nil {}
 
 enum Gender {
     Male = 0;

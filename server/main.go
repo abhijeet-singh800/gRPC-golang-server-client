@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -149,6 +150,28 @@ func (s *crudServer) SetUser(ctx context.Context, req *crud.UserSpec) (*crud.Use
 
 	return resp, nil
 
+}
+
+func (s *crudServer) GetAll(req *crud.Nil, stream crud.CrudService_GetAllServer) error {
+	sqlData, err := sql.ReadAll()
+	if err != nil {
+		return status.Errorf(codes.Internal, "Cant Get Users form Database Error %v", err)
+	}
+	for _, usr := range sqlData {
+		res := &crud.UserSpec{
+			Id:      int32(usr.Id),
+			EmpId:   int32(usr.EmpID),
+			Name:    usr.Name,
+			Gender:  toGenderEnum(usr.Gender),
+			Premium: toMembershipEnum(usr.Premium),
+		}
+
+		if err = stream.Send(res); err != nil {
+			return status.Errorf(codes.Internal, "Cant Stream Error: %v", err)
+		}
+		time.Sleep(time.Second / 2)
+	}
+	return nil
 }
 
 func main() {
