@@ -119,7 +119,7 @@ func (x *One) GetNum() int32 {
 
 type NumList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Num           []int32                `protobuf:"varint,1,rep,packed,name=num,proto3" json:"num,omitempty"`
+	Nums          []int32                `protobuf:"varint,1,rep,packed,name=nums,proto3" json:"nums,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -154,9 +154,9 @@ func (*NumList) Descriptor() ([]byte, []int) {
 	return file_calc_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *NumList) GetNum() []int32 {
+func (x *NumList) GetNums() []int32 {
 	if x != nil {
-		return x.Num
+		return x.Nums
 	}
 	return nil
 }
@@ -171,9 +171,9 @@ const file_calc_proto_rawDesc = "" +
 	"\x05first\x18\x01 \x01(\x05R\x05first\x12\x10\n" +
 	"\x03sec\x18\x02 \x01(\x05R\x03sec\"\x17\n" +
 	"\x03One\x12\x10\n" +
-	"\x03num\x18\x01 \x01(\x05R\x03num\"\x1b\n" +
-	"\aNumList\x12\x10\n" +
-	"\x03num\x18\x01 \x03(\x05R\x03num2\xcd\x01\n" +
+	"\x03num\x18\x01 \x01(\x05R\x03num\"\x1d\n" +
+	"\aNumList\x12\x12\n" +
+	"\x04nums\x18\x01 \x03(\x05R\x04nums2\xcd\x01\n" +
 	"\vCalcService\x12\x1b\n" +
 	"\x03Add\x12\t.calc.Two\x1a\t.calc.One\x12\x1b\n" +
 	"\x03Sub\x12\t.calc.Two\x1a\t.calc.One\x12\x1b\n" +

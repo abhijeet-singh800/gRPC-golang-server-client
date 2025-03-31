@@ -47,7 +47,7 @@ func (s *calcServer) Div(ctx context.Context, req *calc.Two) (*calc.One, error) 
 
 func (s *calcServer) SumUpTo(ctx context.Context, req *calc.NumList) (*calc.One, error) {
 	var sum int32
-	for _, num := range req.Num {
+	for _, num := range req.Nums {
 		sum = sum + num
 	}
 	return &calc.One{Num: sum}, nil
@@ -58,7 +58,7 @@ func (s *calcServer) CountUpTo(ctx context.Context, req *calc.One) (*calc.NumLis
 	for i := 0; i < int(req.Num); i++ {
 		num = append(num, int32(i))
 	}
-	return &calc.NumList{Num: num}, nil
+	return &calc.NumList{Nums: num}, nil
 }
 
 // CRUD Service
